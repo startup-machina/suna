@@ -46,6 +46,8 @@ interface ModelSelectorProps {
   canAccessModel: (modelId: string) => boolean;
   subscriptionStatus: SubscriptionStatus;
   refreshCustomModels?: () => void;
+  billingModalOpen: boolean;
+  setBillingModalOpen: (open: boolean) => void;
   hasBorder?: boolean;
 }
 
@@ -56,10 +58,11 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
   canAccessModel,
   subscriptionStatus,
   refreshCustomModels,
+  billingModalOpen,
+  setBillingModalOpen,
   hasBorder = false,
 }) => {
   const [paywallOpen, setPaywallOpen] = useState(false);
-  const [billingModalOpen, setBillingModalOpen] = useState(false);
   const [lockedModel, setLockedModel] = useState<string | null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -758,13 +761,6 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
         onSave={handleSaveCustomModel}
         initialData={dialogInitialData}
         mode={dialogMode}
-      />
-
-      {/* Billing Modal */}
-      <BillingModal
-        open={billingModalOpen}
-        onOpenChange={setBillingModalOpen}
-        returnUrl={typeof window !== 'undefined' ? window.location.href : '/'}
       />
 
       {paywallOpen && (
